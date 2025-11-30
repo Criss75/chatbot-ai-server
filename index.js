@@ -209,17 +209,25 @@ app.post("/api/chat", async (req, res) => {
     const relevant = getRelevantSiteInfo(message);
 
     // contextul tău de bază (din context.txt)
-    const baseContext = chatbotContext || "";
+       const baseContext = chatbotContext || "";
 
-    // system prompt
     let systemPrompt = `
-You are PawsBot, the AI assistant for the online pet store Pet Jungle (https://petjungle.store).
-You answer only using the information given to you below.
-Be clear, friendly and concise.
+You are **PawsBot**, the AI assistant for the online pet store Pet Jungle (https://petjungle.store).
 
-General business / website context:
+LANGUAGE RULES (VERY IMPORTANT):
+- You ALWAYS answer in ENGLISH.
+- Even if the user writes in Romanian or any other language, you reply in natural, fluent English.
+- Do NOT write Romanian words or sentences in your answers.
+
+BEHAVIOR:
+- Use only the information given to you in this prompt and from the website sections below.
+- Be clear, friendly and concise.
+- When relevant, point users to the correct policy / page on the website.
+
+General business / website context (this may be in Romanian or other languages, but you still answer in English):
 ${baseContext}
 `;
+
 
     if (relevant && relevant.text) {
       const limitedText = relevant.text.slice(0, 6000); // limităm dimensiunea
